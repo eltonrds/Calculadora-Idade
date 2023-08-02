@@ -1,0 +1,578 @@
+// Definindo a lista de pessoas vazia
+// let pessoas = [];
+
+// Função para calcular a idade com base no ano
+function calcularIdade(anoNascimento) {
+  const dataAtual = new Date();
+  const anoAtual = dataAtual.getFullYear();
+  return anoAtual - anoNascimento;
+}
+
+// Função para calcular a idade com base no mês (EXTRA)
+function calcularIdadeComMes(anoNascimento, mesNascimento) {
+  const dataAtual = new Date();
+  const anoAtual = dataAtual.getFullYear();
+  const mesAtual = dataAtual.getMonth() + 1; // O mês retornado pelo getMonth() é baseado em zero, então adicionamos 1 para corresponder ao formato usual.
+  let idade = anoAtual - anoNascimento;
+  if (mesNascimento > mesAtual) {
+    idade--;
+  }
+  return idade;
+}
+
+// Função para calcular a idade com base no dia (EXTRA)
+function calcularIdadeComDia(anoNascimento, mesNascimento, diaNascimento) {
+  const dataAtual = new Date();
+  const anoAtual = dataAtual.getFullYear();
+  const mesAtual = dataAtual.getMonth() + 1;
+  const diaAtual = dataAtual.getDate();
+  let idade = anoAtual - anoNascimento;
+
+  if (mesNascimento > mesAtual || (mesNascimento === mesAtual && diaNascimento > diaAtual)) {
+    idade--;
+  }
+  return idade;
+}
+
+// Função para gerar a faixa etária
+function gerarFaixaEtaria(idade) {
+  if (idade >= 0 && idade <= 12) {
+    return "Criança";
+  } else if (idade >= 13 && idade <= 17) {
+    return "Adolescente";
+  } else if (idade >= 18 && idade <= 65) {
+    return "Adulto";
+  } else {
+    return "Idoso";
+  }
+}
+
+// Função para cadastrar a pessoa na lista
+function cadastrarPessoa(nome, anoNascimento, mesNascimento, diaNascimento) {
+  const idade = calcularIdade(anoNascimento);
+  const faixaEtaria = gerarFaixaEtaria(idade);
+  const pessoa = {
+    nome: nome,
+    anoNascimento: anoNascimento,
+    mesNascimento: mesNascimento,
+    diaNascimento: diaNascimento,
+    idade: idade,
+    faixaEtaria: faixaEtaria,
+  };
+  pessoas.push(pessoa);
+  // Salva a lista no localStorage
+  localStorage.setItem("listaPessoas", JSON.stringify(pessoas));
+}
+
+// Função para carregar as pessoas
+function carregarPessoas() {
+  const listaArmazenada = localStorage.getItem("listaPessoas");
+  if (listaArmazenada !== null) {
+    pessoas = JSON.parse(listaArmazenada);
+    renderizarTabela();
+  }
+}
+
+// Função para renderizar o conteúdo da tabela com as pessoas cadastradas
+function renderizarTabela() {
+  const tabela = document.getElementById("tabelaPessoas");
+  tabela.innerHTML = ""; // Limpa a tabela antes de renderizar novamente
+  pessoas.forEach((pessoa) => {
+    const linha = document.createElement("tr");
+    linha.innerHTML = `
+      <td>${pessoa.nome}</td>
+      <td>${pessoa.anoNascimento}</td>
+      <td>${pessoa.mesNascimento}</td>
+      <td>${pessoa.diaNascimento}</td>
+      <td>${pessoa.idade}</td>
+      <td>${pessoa.faixaEtaria}</td>
+    `;
+    tabela.appendChild(linha);
+  });
+}
+
+// Função para limpar os registros
+function limparRegistros() {
+  pessoas = [];
+  localStorage.removeItem("listaPessoas");
+  renderizarTabela();
+}
+
+// Carrega as pessoas ao carregar a página
+carregarPessoas();
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+// Algoritmo
+
+// OK   1. Pegar os valores dos inputs
+// OK   2. Fazer o cálculo do IMC -> valorImc
+// OK   3. Gerar a classificação IMC -> classificacaoImc
+// OK   4. Organizar os dados do usuario para salvar na lista e gerar a data de cadastro
+// OK   5. Inserir o usuario na lista (salvar no localStorage)
+// OK   6. Função para carregar os usuarios (localStorage), chamar ao carregar a página
+// OK   7. Renderizar o conteudo da tabela com os usuarios cadastrados
+//      8. Botão para limpar os registros (localStorage)
+
+
+// Algoritmo:
+
+// 1. Pegar os valores
+// 2. Calcular a Idade
+//       a. Com base no ano
+//       b. Com mês (EXTRA)
+//       c. Com dia (EXTRA)
+
+// 3. Gerar a faixa etária
+   
+//     Resultado            Faixa
+//     0 à 12                Criança
+//     13 à 17                Adolescente
+//     18 à 65               Adulto
+//     Acima de 65         Idoso
+   
+
+// 4. Organizar o objeto pessoa para salvar na lista
+// 5. Cadastrar a pessoa na lista
+// 6. Função para carregar as pessoas, carrega a lista do localStorage, chamar ao carregar a página
+// 7. Renderizar o conteúdo da tabela com as pessoas cadastradas
+// 8. Botão para limpar os registros;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// let pessoas = [];
+
+// // Função para calcular a idade com base no ano
+// function calcularIdade(anoNascimento) {
+//     const dataAtual = new Date();
+//     const anoAtual = dataAtual.getFullYear();
+//     return anoAtual - anoNascimento;
+//   }
+  
+//   // Função para calcular a idade com base no mês (EXTRA)
+//   function calcularIdadeComMes(anoNascimento, mesNascimento) {
+//     const dataAtual = new Date();
+//     const anoAtual = dataAtual.getFullYear();
+//     const mesAtual = dataAtual.getMonth() + 1; // O mês retornado pelo getMonth() é baseado em zero, então adicionamos 1 para corresponder ao formato usual.
+//     let idade = anoAtual - anoNascimento;
+//     if (mesNascimento > mesAtual) {
+//       idade--;
+//     }
+//     return idade;
+//   }
+  
+//   // Função para calcular a idade com base no dia (EXTRA)
+//   function calcularIdadeComDia(anoNascimento, mesNascimento, diaNascimento) {
+//     const dataAtual = new Date();
+//     const anoAtual = dataAtual.getFullYear();
+//     const mesAtual = dataAtual.getMonth() + 1;
+//     const diaAtual = dataAtual.getDate();
+//     let idade = anoAtual - anoNascimento;
+  
+//     if (mesNascimento > mesAtual || (mesNascimento === mesAtual && diaNascimento > diaAtual)) {
+//       idade--;
+//     }
+//     return idade;
+//   }
+  
+//   // Função para gerar a faixa etária
+//   function gerarFaixaEtaria(idade) {
+//     if (idade >= 0 && idade <= 12) {
+//       return "Criança";
+//     } else if (idade >= 13 && idade <= 17) {
+//       return "Adolescente";
+//     } else if (idade >= 18 && idade <= 65) {
+//       return "Adulto";
+//     } else {
+//       return "Idoso";
+//     }
+//   }
+  
+//   // Função para cadastrar a pessoa na lista
+//   function cadastrarPessoa(nome, anoNascimento, mesNascimento, diaNascimento) {
+//     const idade = calcularIdade(anoNascimento);
+//     const faixaEtaria = gerarFaixaEtaria(idade);
+//     const pessoa = {
+//       nome: nome,
+//       anoNascimento: anoNascimento,
+//       mesNascimento: mesNascimento,
+//       diaNascimento: diaNascimento,
+//       idade: idade,
+//       faixaEtaria: faixaEtaria,
+//     };
+//     pessoas.push(pessoa);
+//     // Salva a lista no localStorage
+//     localStorage.setItem("listaPessoas", JSON.stringify(pessoas));
+//   }
+  
+//   // Função para carregar as pessoas
+//   function carregarPessoas() {
+//     const listaArmazenada = localStorage.getItem("listaPessoas");
+//     if (listaArmazenada !== null) {
+//       pessoas = JSON.parse(listaArmazenada);
+//       renderizarTabela();
+//     }
+//   }
+  
+//   // Função para renderizar o conteúdo da tabela com as pessoas cadastradas
+//   function renderizarTabela() {
+//     const tabela = document.getElementById("tabelaPessoas");
+//     tabela.innerHTML = ""; // Limpa a tabela antes de renderizar novamente
+//     pessoas.forEach((pessoa) => {
+//       const linha = document.createElement("tr");
+//       linha.innerHTML = `
+//         <td>${pessoa.nome}</td>
+//         <td>${pessoa.anoNascimento}</td>
+//         <td>${pessoa.mesNascimento}</td>
+//         <td>${pessoa.diaNascimento}</td>
+//         <td>${pessoa.idade}</td>
+//         <td>${pessoa.faixaEtaria}</td>
+//       `;
+//       tabela.appendChild(linha);
+//     });
+//   }
+  
+//   // Função para limpar os registros
+//   function limparRegistros() {
+//     pessoas = [];
+//     localStorage.removeItem("listaPessoas");
+//     renderizarTabela();
+//   }
+  
+//   // Carrega as pessoas ao carregar a página
+//   carregarPessoas();
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// function calcularIdade(event) {
+//     // Previne o recarregar da página
+//     event.preventDefault()
+
+//     console.log("Foi executada a função calcular")
+
+//     // Passo 1
+//     let usuario = receberValores()
+
+//     // Passo 2
+//     let imcCalculado = calcularImc(usuario.altura, usuario.peso)
+
+//     // Passo 3
+//     let classificacaoImc = classificarImc(imcCalculado)
+
+//     console.log(classificacaoIdade)
+
+//     // Passo 4
+//     usuario = organizarDados(usuario, calculadoIdade, classificacaoIdade)
+
+//     // Passo 5
+//     cadastrarUsuario(usuario)
+    
+//     // Esse
+//     carregarUsuarios()
+
+//     // Ou
+//     // window.location.reload()
+
+// }
+
+// function receberValores() {
+//     let nomeRecebido = document.getElementById("nome").value.trim()
+//     let alturaRecebida = document.getElementById("altura").value
+//     let pesoRecebido = document.getElementById("peso").value
+
+//     let dadosUsuario = {
+//         nome: nomeRecebido,
+//         altura: alturaRecebida,
+//         peso: pesoRecebido
+//     }
+
+//     console.log(dadosUsuario)
+
+//     return dadosUsuario
+// }
+
+// function calcularIdade(altura, peso) {
+//     let imc = peso / (altura * altura)
+
+//     console.log(imc)
+
+//     return imc
+// }
+
+// function classificarIdade(Idade) {
+//     /* 
+//     Resultado               Situação
+
+//     Abaixo de 18.5          Abaixo do peso
+//     Entre 18.5 e 24.99      Peso normal
+//     Entre 25 e 29.99        Sobrepeso
+//     Acima de 30             Obesidade    
+//     */
+
+//     if (Idade < 18.5) {
+//         return "Abaixo do peso"
+//     } else if (imc >= 18.5 && imc < 25) {
+//         return "Peso normal"
+//     } else if (imc >= 25 && imc < 30) {
+//         return "Sobrepeso"
+//     } else {
+//         return "Obesidade"
+//     }
+// }
+
+// function organizarDados(dadosUsuario, valorImc, classificacaoImc) {
+//     // Pegar a dataHoraAtual
+//     let dataHoraAtual = new Intl.DateTimeFormat('pt-BR', { timeStyle: 'long', dateStyle: 'short' }).format(Date.now())
+
+//     console.log(dataHoraAtual);
+
+//     // Organizando o objeto para salvar
+//     let dadosUsuarioAtualizado = {
+//         ...dadosUsuario,
+//         imc: valorImc,
+//         situacaoImc: classificacaoImc,
+//         dataCadastro: dataHoraAtual
+//     }
+
+//     return dadosUsuarioAtualizado;
+// }
+
+// function cadastrarUsuario(dadosUsuario) {
+//     let listaUsuarios = []
+
+//     // Se houver uma lista de usuarios no localStorage, carregar isso para a variavel listaUsuarios
+//     if (localStorage.getItem("usuariosCadastrados") != null) {
+//         listaUsuarios = JSON.parse( localStorage.getItem("usuariosCadastrados") )
+//     }
+
+//     // Adiciona o usuario na lista de usuarios
+//     listaUsuarios.push(dadosUsuario)
+
+//     // Salva a listaUsuarios no localStorage
+//     localStorage.setItem("usuariosCadastrados",  JSON.stringify(listaUsuarios) )
+
+// }
+
+// function carregarUsuarios() {
+//     let listaCarregada = []
+
+//     if ( localStorage.getItem("usuariosCadastrados") != null ) {
+//         listaCarregada = JSON.parse(localStorage.getItem("usuariosCadastrados"))
+//     }
+
+//     if(listaCarregada.length == 0) {
+//         // Se não tiver nenhum usuario cadastrado, mostrar mensagem
+//         let tabela = document.getElementById("corpo-tabela")
+
+//         tabela.innerHTML = `<tr class="linha-mensagem">
+//             <td colspan="6">Nenhum usuario cadastrado ☹ </td>
+//         </tr>`
+
+//     } else {
+//         // Montar conteudo da tabela
+//         montarTabela(listaCarregada)
+//     }
+
+//     console.log(listaCarregada)
+// }
+
+// window.addEventListener("DOMContentLoaded", () => carregarUsuarios() )
+
+// // Passo 7
+// function montarTabela(listaUsuarios) {
+//     let tabela = document.getElementById("corpo-tabela")
+
+//     let template = ""
+
+//     listaUsuarios.forEach(usuario => {
+//         template += `<tr>
+//             <td data-cell="nome">${usuario.nome}</td>
+//             <td data-cell="altura">${usuario.altura}</td>
+//             <td data-cell="peso">${usuario.peso}</td>
+//             <td data-cell="valor do IMC">${usuario.imc.toFixed(2)}</td>
+//             <td data-cell="classificação do IMC">${usuario.situacaoImc}</td>
+//             <td data-cell="data de cadastro">${usuario.dataCadastro}</td>
+//         </tr>`
+//     })
+
+//     tabela.innerHTML = template;
+// }
+
+// function deletarRegistros() {
+//     // Remove o item do localStorage
+//     localStorage.removeItem("usuariosCadastrados")
+
+//     // Recarrega a página
+//     window.location.reload()
+
+
+
+
+// }
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+let pessoas = [];
+
+function calcularIdade(anoNascimento) {
+  let dataAtual = new Date();
+  let anoAtual = dataAtual.getFullYear();
+  return anoAtual - anoNascimento;
+}
+
+function calcularIdadeComMes(anoNascimento, mesNascimento) {
+  let dataAtual = new Date();
+  let anoAtual = dataAtual.getFullYear();
+  let mesAtual = dataAtual.getMonth() + 1;
+  let idade = anoAtual - anoNascimento;
+
+  if (mesNascimento > mesAtual) {
+    idade--;
+  }
+
+  return idade;
+}
+
+function calcularIdadeComDia(anoNascimento, mesNascimento, diaNascimento) {
+  let dataAtual = new Date();
+  let anoAtual = dataAtual.getFullYear();
+  let mesAtual = dataAtual.getMonth() + 1;
+  let diaAtual = dataAtual.getDate();
+  let idade = anoAtual - anoNascimento;
+
+  if (mesNascimento > mesAtual || (mesNascimento === mesAtual && diaNascimento > diaAtual)) {
+    idade--;
+  }
+
+  return idade;
+}
+
+function gerarFaixaEtaria(idade) {
+  let faixaEtaria;
+
+  if (idade >= 0 && idade <= 12) {
+    faixaEtaria = "Criança";
+  } else if (idade >= 13 && idade <= 17) {
+    faixaEtaria = "Adolescente";
+  } else if (idade >= 18 && idade <= 65) {
+    faixaEtaria = "Adulto";
+  } else {
+    faixaEtaria = "Idoso";
+  }
+
+  return faixaEtaria;
+}
+
+function cadastrarPessoa(nome, anoNascimento, mesNascimento, diaNascimento) {
+  let idade = calcularIdade(anoNascimento);
+  let faixaEtaria = gerarFaixaEtaria(idade);
+  let pessoa = {
+    nome: nome,
+    anoNascimento: anoNascimento,
+    mesNascimento: mesNascimento,
+    diaNascimento: diaNascimento,
+    idade: idade,
+    faixaEtaria: faixaEtaria,
+  };
+
+  pessoas.push(pessoa);
+  localStorage.setItem("listaPessoas", JSON.stringify(pessoas));
+}
+
+function carregarPessoas() {
+  let listaArmazenada = localStorage.getItem("listaPessoas");
+
+  if (listaArmazenada !== null) {
+    pessoas = JSON.parse(listaArmazenada);
+    renderizarTabela();
+  }
+}
+
+function renderizarTabela() {
+  let tabela = document.getElementById("tabelaPessoas");
+  tabela.innerHTML = "";
+
+  pessoas.forEach((pessoa) => {
+    let linha = document.createElement("tr");
+    linha.innerHTML = `
+      <td>${pessoa.nome}</td>
+      <td>${pessoa.anoNascimento}</td>
+      <td>${pessoa.mesNascimento}</td>
+      <td>${pessoa.diaNascimento}</td>
+      <td>${pessoa.idade}</td>
+      <td>${pessoa.faixaEtaria}</td>
+    `;
+    tabela.appendChild(linha);
+  });
+}
+
+function limparRegistros() {
+  pessoas = [];
+  localStorage.removeItem("listaPessoas");
+  renderizarTabela();
+}
+
+carregarPessoas();
+Agora, todas as variáveis foram declaradas usando let em vez de const. Isso permitirá que elas sejam reatribuídas e alteradas conforme necessário no código.
+
+
+
+
+Vou explicar o código passo a passo e também como você pode aplicá-lo ao HTML.
+
+Explicação do Código:
+
+Declaração da lista de pessoas (pessoas) que será utilizada para armazenar os objetos de cada pessoa cadastrada.
+
+Função calcularIdade(anoNascimento): Recebe o ano de nascimento de uma pessoa como argumento e calcula a idade com base no ano atual.
+
+Funções calcularIdadeComMes(anoNascimento, mesNascimento) e calcularIdadeComDia(anoNascimento, mesNascimento, diaNascimento): São funções extras que calculam a idade com base no ano, mês e dia de nascimento. Elas permitem um cálculo mais preciso da idade considerando o mês e o dia atual, caso necessário.
+
+Função gerarFaixaEtaria(idade): Recebe a idade de uma pessoa como argumento e retorna a faixa etária correspondente com base nas faixas definidas no enunciado.
+
+Função cadastrarPessoa(nome, anoNascimento, mesNascimento, diaNascimento): Recebe as informações de uma pessoa (nome, ano de nascimento, mês de nascimento e dia de nascimento) como argumentos, calcula a idade usando a função calcularIdade, gera a faixa etária usando a função gerarFaixaEtaria e, em seguida, cria um objeto representando a pessoa e o adiciona à lista pessoas. Além disso, a lista pessoas é armazenada no localStorage para persistência dos dados entre as sessões.
+
+Função carregarPessoas(): É responsável por carregar a lista de pessoas do localStorage ao carregar a página. Ela verifica se a lista existe no localStorage e, se existir, a recupera e atribui à variável pessoas. Em seguida, chama a função renderizarTabela() para exibir os dados na tabela.
+
+Função renderizarTabela(): Responsável por exibir os dados das pessoas cadastradas na tabela do HTML. Ela percorre a lista de pessoas (pessoas) e cria elementos de tabela (linhas <tr>) com as informações das pessoas, que são adicionadas à tabela já existente no HTML.
+
+Função limparRegistros(): Limpa a lista de pessoas (pessoas) e remove a lista armazenada no localStorage. Em seguida, chama a função renderizarTabela() para limpar a tabela no HTML.
+
+Como aplicar no HTML:
+
+Crie uma página HTML que contenha uma tabela com um id tabelaPessoas para exibir as informações das pessoas cadastradas. Onde desejar que os botões funcionem, adicione botões com os respectivos onclick para chamar as funções do JavaScript.
+
+Certifique-se de incluir o script.js no arquivo HTML, logo antes do fechamento da tag </body>, para garantir que o código JavaScript seja carregado após a estrutura do DOM ser construída.
+
+Para cadastrar uma pessoa, você pode chamar a função cadastrarPessoa(nome, anoNascimento, mesNascimento, diaNascimento) passando os argumentos adequados. Por exemplo, para cadastrar uma pessoa com nome "João", nascida em 1990, no mês 6 e dia 15, você pode chamar a função assim:
+
+js
+Copy code
+cadastrarPessoa("João", 1990, 6, 15);
+Para exibir as pessoas cadastradas na tabela, basta chamar a função renderizarTabela().
+
+Para limpar os registros, basta chamar a função limparRegistros().
+
+A função carregarPessoas() é chamada automaticamente ao carregar a página, carregando os dados salvos anteriormente no localStorage e exibindo-os na tabela.
+
+Com essas etapas, você terá a aplicação funcionando. Lembre-se de testar a aplicação e ajustar conforme suas necessidades específicas. Caso precise de mais ajuda, não hesite em perguntar!
